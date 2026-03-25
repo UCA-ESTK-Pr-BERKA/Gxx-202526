@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home — Mini-Projet Demo</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="demo-banner">
+    🚧 <strong>Static Demo</strong> — data is stored in memory only.
+    Run <code>python run.py</code> locally for the full Flask + SQLite experience.
+    &nbsp;|&nbsp; <a href="https://github.com/UCA-ESTK-Pr-BERKA/Gxx-202526">View on GitHub</a>
+  </div>
+
+  <header class="site-header">
+    <nav class="navbar">
+      <a class="brand" href="index.html">⬡ FlaskApp</a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">&#9776;</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Welcome to <span class="highlight">FlaskApp</span></h1>
+      <p class="lead">A minimal template for Flask + SQL + JS projects.</p>
+    </section>
+
+    <section class="card-section">
+      <div class="card">
+        <h2>Add an Item</h2>
+        <form id="item-form" class="item-form">
+          <input type="text" id="item-title" name="title" placeholder="Item title" required />
+          <textarea id="item-desc" name="description" placeholder="Description (optional)" rows="3"></textarea>
+          <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Items <span class="badge" id="item-count">0</span></h2>
+        <ul class="item-list" id="item-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025-2026 UCA ESTK — Mini-Projet DevWeb Template — built with Flask, SQL, JS &amp; CSS</p>
+  </footer>
+
+  <script src="js/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}About — Mini-Projet Template{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>About This Template</h1>
+  <p class="lead">A starter template for web development mini-projects.</p>
+</section>
+
+<section class="card-section">
+  <div class="card wide">
+    <h2>Stack</h2>
+    <ul class="stack-list">
+      <li><span class="badge badge-python">Python</span> <strong>Flask</strong> — lightweight WSGI web framework</li>
+      <li><span class="badge badge-db">SQL</span> <strong>SQL</strong> — ORM with SQLite (swappable to PostgreSQL/MySQL)</li>
+      <li><span class="badge badge-js">JS</span> <strong>Vanilla JavaScript</strong> — async fetch API, DOM manipulation</li>
+      <li><span class="badge badge-html">HTML</span> <strong>Jinja2 templates</strong> — server-side rendering with template inheritance</li>
+      <li><span class="badge badge-css">CSS</span> <strong>Custom CSS</strong> — responsive layout with CSS variables</li>
+    </ul>
+  </div>
+
+  <div class="card wide">
+    <h2>Project Structure</h2>
+    <pre class="code-block">
+Gxx-202526/
+├── app/
+│   ├── __init__.py       # App factory
+│   ├── models.py         # SQLAlchemy models
+│   ├── routes.py         # Flask blueprints &amp; API
+│   ├── static/
+│   │   ├── css/style.css
+│   │   └── js/main.js
+│   └── templates/
+│       ├── base.html
+│       ├── index.html
+│       └── about.html
+├── docs/                 # GitHub Pages static demo
+├── config.py             # Configuration classes
+├── run.py                # Entry point
+└── requirements.txt</pre>
+  </div>
+</section>
+{% endblock %}

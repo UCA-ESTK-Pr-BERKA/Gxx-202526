@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Home — Mini-Projet Demo{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>Welcome to <span class="highlight">FlaskApp</span></h1>
+  <p class="lead">A minimal template for Flask + SQL + JS projects.</p>
+</section>
+
+<section class="card-section">
+  <div class="card">
+    <h2>Add an Item</h2>
+    <form id="item-form" class="item-form">
+      <input type="text" id="item-title" name="title" placeholder="Item title" required />
+      <textarea id="item-desc" name="description" placeholder="Description (optional)" rows="3"></textarea>
+      <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Items <span class="badge" id="item-count">{{ items|length }}</span></h2>
+    <ul class="item-list" id="item-list">
+      {% for item in items %}
+      <li class="item" data-id="{{ item.id }}">
+        <div class="item-body">
+          <strong>{{ item.title }}</strong>
+          {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+          <small class="timestamp">{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+        </div>
+        <button class="btn btn-danger btn-sm delete-btn" data-id="{{ item.id }}">✕</button>
+      </li>
+      {% else %}
+      <li class="empty-state" id="empty-state">No items yet. Add one above!</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}
