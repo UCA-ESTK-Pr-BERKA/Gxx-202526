@@ -1,4 +1,8 @@
-# Gxx-202526 — Mini-project Template
+# G38-202526 — Mini-project Template
+## Group Links
+
+- **GitHub Repository:** [https://github.com/UCA-ESTK-Pr-BERKA/G38-202526](https://github.com/UCA-ESTK-Pr-BERKA/G38-202526)
+- **GitHub Pages:** [https://uca-estk-pr-berka.github.io/G38-202526/](https://uca-estk-pr-berka.github.io/G38-202526/)
 
 A ready-to-use template for web development mini-projects that combines **Flask**, **SQL**, **JavaScript**, **HTML** and **CSS**.
 
@@ -48,8 +52,8 @@ Gxx-202526/
 
 ```bash
 # 1. Clone
-git clone https://github.com/UCA-ESTK-Pr-BERKA/Gxx-202526.git
-cd Gxx-202526
+git clone https://github.com/UCA-ESTK-Pr-BERKA/G38-202526.git
+cd G38-202526
 
 # 2. Create & activate a virtual environment
 python -m venv MPWeb
