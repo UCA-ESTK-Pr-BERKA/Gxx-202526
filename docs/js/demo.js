@@ -1,20 +1,25 @@
-/* docs/js/demo.js — static demo logic (no backend) */
+/* docs/js/demo.js — Logique de démonstration statique (Améliorée) */
 
-// ── Hamburger ─────────────────────────────────────────────────
+// ── Menu Hamburger ──────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.querySelector('.nav-links');
 if (hamburger && navLinks) {
   hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
 }
 
-// ── In-memory item store ──────────────────────────────────────
-let items = [
-  { id: 1, title: 'Sample item A', description: 'This is a demo item stored in memory.', created_at: new Date().toISOString() },
-  { id: 2, title: 'Sample item B', description: 'In the real app items are persisted to SQLite.', created_at: new Date().toISOString() },
+// ── Stockage local (LocalStorage) ───────────────────────────
+// Récupère les données sauvegardées ou utilise une liste par défaut
+let items = JSON.parse(localStorage.getItem('flask_app_items')) || [
+  { id: 1, title: 'Exemple A', description: 'Ceci est un élément de démo stocké localement.', created_at: new Date().toISOString() },
+  { id: 2, title: 'Exemple B', description: 'Vos données restent ici même après actualisation !', created_at: new Date().toISOString() },
 ];
-let nextId = 3;
+let nextId = items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
 
-// ── DOM refs ─────────────────────────────────────────────────
+function saveToLocal() {
+  localStorage.setItem('flask_app_items', JSON.stringify(items));
+}
+
+// ── Références DOM ──────────────────────────────────────────
 const itemForm  = document.getElementById('item-form');
 const itemList  = document.getElementById('item-list');
 const itemCount = document.getElementById('item-count');
@@ -22,18 +27,17 @@ const itemTitle = document.getElementById('item-title');
 const itemDesc  = document.getElementById('item-desc');
 
 function updateCount() {
-  if (itemCount) itemCount.textContent = itemList.querySelectorAll('.item').length;
+  if (itemCount) itemCount.textContent = items.length;
 }
 
 function syncEmptyState() {
-  const hasItems = itemList.querySelector('.item') !== null;
   let empty = document.getElementById('empty-state');
-  if (!hasItems) {
+  if (items.length === 0) {
     if (!empty) {
       empty = document.createElement('li');
       empty.id = 'empty-state';
       empty.className = 'empty-state';
-      empty.textContent = 'No items yet. Add one above!';
+      empty.textContent = 'Aucun élément pour le moment. Ajoutez-en un !';
       itemList.appendChild(empty);
     }
   } else if (empty) {
@@ -43,7 +47,7 @@ function syncEmptyState() {
 
 function buildItemElement(item) {
   const li = document.createElement('li');
-  li.className = 'item';
+  li.className = 'item fade-in';
   li.dataset.id = item.id;
 
   const body = document.createElement('div');
@@ -61,14 +65,15 @@ function buildItemElement(item) {
 
   const ts = document.createElement('small');
   ts.className = 'timestamp';
-  ts.textContent = new Date(item.created_at).toLocaleString();
+  // Affichage de la date au format français
+  ts.textContent = new Date(item.created_at).toLocaleString('fr-FR');
   body.appendChild(ts);
 
   const btn = document.createElement('button');
   btn.className = 'btn btn-danger btn-sm delete-btn';
   btn.dataset.id = item.id;
   btn.textContent = '✕';
-  btn.setAttribute('aria-label', `Delete ${item.title}`);
+  btn.setAttribute('aria-label', `Supprimer ${item.title}`);
 
   li.appendChild(body);
   li.appendChild(btn);
@@ -76,38 +81,52 @@ function buildItemElement(item) {
 }
 
 function renderAll() {
+  if (!itemList) return;
   itemList.innerHTML = '';
   items.forEach(item => itemList.appendChild(buildItemElement(item)));
   syncEmptyState();
   updateCount();
+  saveToLocal();
 }
 
-// ── Add item ─────────────────────────────────────────────────
+// ── Ajouter un élément ──────────────────────────────────────
 if (itemForm) {
   itemForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const title       = itemTitle.value.trim();
+    const title = itemTitle.value.trim();
     const description = itemDesc ? itemDesc.value.trim() : '';
-    if (!title) return;
 
-    const item = { id: nextId++, title, description, created_at: new Date().toISOString() };
+    if (title.length < 2) {
+      alert("Le titre doit contenir au moins 2 caractères !");
+      return;
+    }
+
+    const item = { 
+      id: nextId++, 
+      title, 
+      description, 
+      created_at: new Date().toISOString() 
+    };
+    
     items.unshift(item);
     renderAll();
     itemForm.reset();
   });
 }
 
-// ── Delete item (event delegation) ─────────────────────────
+// ── Supprimer un élément ────────────────────────────────────
 if (itemList) {
   itemList.addEventListener('click', (e) => {
     const btn = e.target.closest('.delete-btn');
     if (!btn) return;
+    
     const id = Number(btn.dataset.id);
-    if (!confirm('Delete this item?')) return;
-    items = items.filter(i => i.id !== id);
-    renderAll();
+    if (confirm('Voulez-vous vraiment supprimer cet élément ?')) {
+      items = items.filter(i => i.id !== id);
+      renderAll();
+    }
   });
 
-  // Initial render
+  // Premier rendu au chargement
   renderAll();
 }
